@@ -36,6 +36,11 @@
   dependencies:
     "safe-buffer" "5.1.2"
 
+"body-parse@^0.1.0":
+  "integrity" "sha512-k0PDF7vZZpspXlwoM8ywh9PIHZokooS0Rek4M8Vekoro7XuuaWVhjgTpdzIRrfKj5oLQahwjn621/4kG4d91xw=="
+  "resolved" "https://registry.npmjs.org/body-parse/-/body-parse-0.1.0.tgz"
+  "version" "0.1.0"
+
 "body-parser@^1.19.0", "body-parser@1.20.0":
   "integrity" "sha512-DfJ+q6EPcGKZD1QWUjSpqp+Q7bDQTsQIF4zfUAtZ6qk+H/3/QRhg9CEp39ss+/T2vw0+HaidC0ecJj/DRLIaKg=="
   "resolved" "https://registry.npmjs.org/body-parser/-/body-parser-1.20.0.tgz"
@@ -138,7 +143,7 @@
   "resolved" "https://registry.npmjs.org/destroy/-/destroy-1.2.0.tgz"
   "version" "1.2.0"
 
-"dotenv@^8.2.0":
+"dotenv@^8.6.0":
   "integrity" "sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g=="
   "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-8.6.0.tgz"
   "version" "8.6.0"
@@ -168,7 +173,7 @@
   "resolved" "https://registry.npmjs.org/eventemitter3/-/eventemitter3-4.0.7.tgz"
   "version" "4.0.7"
 
-"express@^4.17.1":
+"express@^4.18.1":
   "integrity" "sha512-zZBcOX9TfehHQhtupq57OF8lFZ3UZi08Y97dwFCkD8p9d/d2Y3M+ykKcwaMDEL+4qyUolgBDX6AblpR3fL212Q=="
   "resolved" "https://registry.npmjs.org/express/-/express-4.18.1.tgz"
   "version" "4.18.1"
@@ -329,7 +334,7 @@
   dependencies:
     "safer-buffer" ">= 2.1.2 < 3.0.0"
 
-"immutable@^4.0.0-rc.12":
+"immutable@^4.1.0":
   "integrity" "sha512-oNkuqVTA8jqG1Q6c+UglTOD1xhC1BtjKI7XkCXRkZHrN5m18/XsnUp8Q89GkQO/z+0WjonSvl0FLhDYftp46nQ=="
   "resolved" "https://registry.npmjs.org/immutable/-/immutable-4.1.0.tgz"
   "version" "4.1.0"

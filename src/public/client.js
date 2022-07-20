@@ -37,6 +37,11 @@ const App = (state) => {
                 </p>
                 ${ImageOfTheDay(apod)}
             </section>
+            <section>
+              <p>
+                ${infoFromRovers(rovers)}
+              </p>
+            </section>
         </main>
         <footer></footer>
     `;
@@ -89,6 +94,14 @@ const ImageOfTheDay = (apod) => {
   }
 };
 
+const infoFromRovers = (rovers) => {
+  getPhotosFromRovers(store);
+  console.log(rovers[0]);
+  if (rovers[0] != null && rovers[0].img_src && rovers[0].rover) {
+    return `<p>latest photo from Curiosity <img src="${rovers[0].img_src}" height="350px" width="100%" /></p>`;
+  }
+  return null;
+};
 // ------------------------------------------------------  API CALLS
 
 // Example API call
@@ -97,7 +110,25 @@ const getImageOfTheDay = (state) => {
 
   fetch(`http://localhost:3000/apod`)
     .then((res) => res.json())
-    .then((apod) => updateStore(store, { apod }));
+    .then((apod) => {
+      console.log(apod);
+      updateStore(store, { apod });
+    });
 
   return data;
+};
+
+const getPhotosFromRovers = (state) => {
+  fetch(`http://localhost:3000/rover`)
+    .then((res) => res.json())
+    .then((rovers) => {
+      console.log(rovers);
+      let prevStateChanged = false;
+      rovers.forEach((rover, i) => {
+        if (rover.id != state.rovers[i].id) {
+          prevStateChanged = true;
+        }
+      });
+      prevStateChanged && updateStore(store, { rovers });
+    });
 };
