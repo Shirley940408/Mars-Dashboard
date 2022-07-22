@@ -39,7 +39,9 @@ const App = (state) => {
             </section>
             <section>
               <p>
-                ${infoFromRovers(rovers)}
+                ${infoFromCuriosity(rovers)} 
+                ${infoFromOpportunity(rovers)}
+                ${infoFromSpirit(rovers)}
               </p>
             </section>
         </main>
@@ -94,13 +96,23 @@ const ImageOfTheDay = (apod) => {
   }
 };
 
-const infoFromRovers = (rovers) => {
+const infoFromCuriosity = (rovers) => {
   getPhotosFromRovers(store);
-  console.log(rovers[0]);
   if (rovers[0] != null && rovers[0].img_src && rovers[0].rover) {
     return `<p>latest photo from Curiosity <img src="${rovers[0].img_src}" height="350px" width="100%" /></p>`;
   }
-  return null;
+};
+const infoFromOpportunity = (rovers) => {
+  getPhotosFromRovers(store);
+  if (rovers[1] != null && rovers[1].img_src && rovers[1].rover) {
+    return `<p>latest photo from Opportunity <img src="${rovers[1].img_src}" height="350px" width="100%" /></p>`;
+  }
+};
+const infoFromSpirit = (rovers) => {
+  getPhotosFromRovers(store);
+  if (rovers[2] != null && rovers[2].img_src && rovers[2].rover) {
+    return `<p>latest photo from Spirit <img src="${rovers[2].img_src}" height="350px" width="100%" /></p>`;
+  }
 };
 // ------------------------------------------------------  API CALLS
 
