@@ -38,11 +38,8 @@ const App = (state) => {
                 ${ImageOfTheDay(apod)}
             </section>
             <section>
-              <p>
-                ${infoFromRovers(rovers)}
-              </p>
             </section>
-            <div></div>
+            <div>${onClickButton(rovers)}</div>
         </main>
         <footer></footer>
     `;
@@ -95,17 +92,21 @@ const ImageOfTheDay = (apod) => {
   }
 };
 
-const infoFromRovers = (rovers) => {
+// const infoFromRovers = (rovers) => {
+//   getPhotosFromRovers(store);
+//   return `${rovers.reduce(
+//     (acc, rover) => acc + updateInfoFromRover(rover),
+//     ""
+//   )}`;
+// };
+const onClickButton = (rovers) => {
   getPhotosFromRovers(store);
   return `${rovers.reduce(
-    (acc, rover) => acc + updateInfoFromRover(rover),
+    (acc, rover) =>
+      acc + `<button onClick="updateInfoFromRover">${rover.name}</button>`,
     ""
   )}`;
 };
-// const onClickHelper = (rover, func) => {
-//   console.log("onClickHelper");
-//   return func(rover);
-// };
 const updateInfoFromRover = (rover) => {
   if (rover != null && rover.img_src && rover.name) {
     console.log(
