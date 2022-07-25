@@ -38,7 +38,7 @@ app.get("/rover", async (req, res) => {
           await fetch(url)
             .then((res) => res.json())
             .then(({ photos }) => {
-              return photos[0];
+              return { ...photos[0].rover, img_src: photos[0].img_src };
             })
       )
     );

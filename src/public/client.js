@@ -39,11 +39,10 @@ const App = (state) => {
             </section>
             <section>
               <p>
-                ${infoFromCuriosity(rovers)} 
-                ${infoFromOpportunity(rovers)}
-                ${infoFromSpirit(rovers)}
+                ${infoFromRovers(rovers)}
               </p>
             </section>
+            <div></div>
         </main>
         <footer></footer>
     `;
@@ -96,22 +95,23 @@ const ImageOfTheDay = (apod) => {
   }
 };
 
-const infoFromCuriosity = (rovers) => {
+const infoFromRovers = (rovers) => {
   getPhotosFromRovers(store);
-  if (rovers[0] != null && rovers[0].img_src && rovers[0].rover) {
-    return `<p>latest photo from Curiosity <img src="${rovers[0].img_src}" height="350px" width="100%" /></p>`;
-  }
+  return `${rovers.reduce(
+    (acc, rover) => acc + updateInfoFromRover(rover),
+    ""
+  )}`;
 };
-const infoFromOpportunity = (rovers) => {
-  getPhotosFromRovers(store);
-  if (rovers[1] != null && rovers[1].img_src && rovers[1].rover) {
-    return `<p>latest photo from Opportunity <img src="${rovers[1].img_src}" height="350px" width="100%" /></p>`;
-  }
-};
-const infoFromSpirit = (rovers) => {
-  getPhotosFromRovers(store);
-  if (rovers[2] != null && rovers[2].img_src && rovers[2].rover) {
-    return `<p>latest photo from Spirit <img src="${rovers[2].img_src}" height="350px" width="100%" /></p>`;
+// const onClickHelper = (rover, func) => {
+//   console.log("onClickHelper");
+//   return func(rover);
+// };
+const updateInfoFromRover = (rover) => {
+  if (rover != null && rover.img_src && rover.name) {
+    console.log(
+      `<p>latest photo from ${rover.name} with launch date ${rover.launch_date} and landing date ${rover.landing_date}<img src="${rover.img_src}" height="350px" width="100%" />status ${rover.status}</p>`
+    );
+    return `<p>latest photo from ${rover.name} with launch date ${rover.launch_date} and landing date ${rover.landing_date}<img src="${rover.img_src}" height="350px" width="100%" />status ${rover.status}</p>`;
   }
 };
 // ------------------------------------------------------  API CALLS
@@ -126,8 +126,6 @@ const getImageOfTheDay = (state) => {
       console.log(apod);
       updateStore(store, { apod });
     });
-
-  return data;
 };
 
 const getPhotosFromRovers = (state) => {
