@@ -37,9 +37,8 @@ const App = (state) => {
                 </p>
                 ${ImageOfTheDay(apod)}
             </section>
-            <section>
-            </section>
             <div>${onClickButton(rovers)}</div>
+            <div id="userClicked"></div>
         </main>
         <footer></footer>
     `;
@@ -70,11 +69,8 @@ const ImageOfTheDay = (apod) => {
   // If image does not already exist, or it is not from today -- request it again
   const today = new Date();
   const photodate = new Date(apod.date);
-  console.log(photodate.getDate(), today.getDate());
-
-  console.log(photodate.getDate() === today.getDate());
   if (!apod || apod.date === today.getDate()) {
-    getImageOfTheDay(store);
+    getImageOfTheDay(store, updateStore);
   }
 
   // check if the photo of the day is actually type video!
@@ -86,60 +82,78 @@ const ImageOfTheDay = (apod) => {
         `;
   } else {
     return `
-            <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.explanation}</p>
+            <img src="${apod.image && apod.image.url}" height="350px" width="100%" />
+            <p>${apod.image && apod.image.explanation}</p>
         `;
   }
 };
 
-// const infoFromRovers = (rovers) => {
-//   getPhotosFromRovers(store);
-//   return `${rovers.reduce(
-//     (acc, rover) => acc + updateInfoFromRover(rover),
-//     ""
-//   )}`;
-// };
+const UItemplate = (roverDecode, listLoop) => {
+  const {img_src} = roverDecode;
+    if (roverDecode != null) {
+    const element = document.getElementById("userClicked");
+    element.innerHTML = '';
+    listLoop(element, roverDecode, img_src);
+  }
+}  
+const listLoop = (element, roverDecode, img_src) => {
+     Object.keys(roverDecode).filter((key)=> key!='id').forEach((key) => {
+      if(key == "img_src"){
+        const img = new Image();
+        img.src = img_src;
+        const x = window.matchMedia("(max-width: 700px)");
+        x.matches? img.style.width = "100%" : img.style.width = "350px";
+        element.appendChild(img);
+      }else{
+        const para = document.createElement("p");
+        const node = document.createTextNode(`${key}: ${roverDecode[key]}`)
+        para.appendChild(node);
+        element.appendChild(para);
+      }
+    })
+}
+
 const onClickButton = (rovers) => {
-  getPhotosFromRovers(store);
+  getPhotosFromRovers(store, updateStore);
   return `${rovers.reduce(
     (acc, rover) =>
-      acc + `<button onClick="updateInfoFromRover">${rover.name}</button>`,
+      acc +
+      `<button onClick="update('${encodeURIComponent(JSON.stringify(rover))}')">${
+        rover.name
+      }</button>`,
     ""
   )}`;
 };
-const updateInfoFromRover = (rover) => {
-  if (rover != null && rover.img_src && rover.name) {
-    console.log(
-      `<p>latest photo from ${rover.name} with launch date ${rover.launch_date} and landing date ${rover.landing_date}<img src="${rover.img_src}" height="350px" width="100%" />status ${rover.status}</p>`
-    );
-    return `<p>latest photo from ${rover.name} with launch date ${rover.launch_date} and landing date ${rover.landing_date}<img src="${rover.img_src}" height="350px" width="100%" />status ${rover.status}</p>`;
-  }
+
+
+
+const update = (rover) => {
+  const roverDecode = JSON.parse(decodeURIComponent(rover));
+  UItemplate(roverDecode, listLoop);
 };
 // ------------------------------------------------------  API CALLS
 
 // Example API call
-const getImageOfTheDay = (state) => {
+const getImageOfTheDay = (state, callback) => {
   let { apod } = state;
 
   fetch(`http://localhost:3000/apod`)
     .then((res) => res.json())
     .then((apod) => {
-      console.log(apod);
-      updateStore(store, { apod });
+      callback(store, { apod });
     });
 };
 
-const getPhotosFromRovers = (state) => {
+const getPhotosFromRovers = (state, callback) => {
   fetch(`http://localhost:3000/rover`)
     .then((res) => res.json())
     .then((rovers) => {
-      console.log(rovers);
       let prevStateChanged = false;
       rovers.forEach((rover, i) => {
         if (rover.id != state.rovers[i].id) {
           prevStateChanged = true;
         }
       });
-      prevStateChanged && updateStore(store, { rovers });
+      prevStateChanged && callback(store, { rovers });
     });
 };
