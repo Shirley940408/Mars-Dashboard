@@ -93,7 +93,7 @@ const UItemplate = (roverDecode, listLoop) => {
     if (roverDecode != null) {
     const element = document.getElementById("userClicked");
     element.innerHTML = '';
-    listLoop(element, roverDecode, img_src);
+    return listLoop(element, roverDecode, img_src);
   }
 }  
 const listLoop = (element, roverDecode, img_src) => {
@@ -122,13 +122,13 @@ const reusableButtons = (rovers) => {
   return `${rovers.reduce(
     (acc, rover) =>
       acc +
-      `<button onClick="update('${encodeURIComponent(JSON.stringify(rover))}')()">${
+      `<button onClick="update('${encodeURIComponent(JSON.stringify(rover))}')">${
         rover.name
       }</button>`,
     ""
   )}`;
 }
-const update = (rover) => () => {
+const update = (rover) => {
   const roverDecode = JSON.parse(decodeURIComponent(rover));
   UItemplate(roverDecode, listLoop);
 };
