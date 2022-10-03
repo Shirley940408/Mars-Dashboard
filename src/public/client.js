@@ -37,7 +37,7 @@ const App = (state) => {
                 </p>
                 ${ImageOfTheDay(apod)}
             </section>
-            <div>${onClickButton(rovers)}</div>
+            <div>${onClickButton(reusableButtons,rovers)}</div>
             <div id="userClicked"></div>
         </main>
         <footer></footer>
@@ -113,21 +113,22 @@ const listLoop = (element, roverDecode, img_src) => {
     })
 }
 
-const onClickButton = (rovers) => {
+const onClickButton = (resuableButtons, rovers) => {
   getPhotosFromRovers(store, updateStore);
+  return resuableButtons(rovers);
+};
+
+const reusableButtons = (rovers) => {
   return `${rovers.reduce(
     (acc, rover) =>
       acc +
-      `<button onClick="update('${encodeURIComponent(JSON.stringify(rover))}')">${
+      `<button onClick="update('${encodeURIComponent(JSON.stringify(rover))}')()">${
         rover.name
       }</button>`,
     ""
   )}`;
-};
-
-
-
-const update = (rover) => {
+}
+const update = (rover) => () => {
   const roverDecode = JSON.parse(decodeURIComponent(rover));
   UItemplate(roverDecode, listLoop);
 };
